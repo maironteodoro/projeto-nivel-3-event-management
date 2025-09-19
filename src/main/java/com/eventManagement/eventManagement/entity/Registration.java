@@ -1,9 +1,7 @@
 package com.eventManagement.eventManagement.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serial;
@@ -25,6 +23,17 @@ public class Registration implements Serializable {
     @CreationTimestamp
     private LocalDateTime registrationAt;
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    @JsonBackReference
+    private User user ;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    @JsonBackReference
+    private Event event;
+
+
     public Long getId() {
         return id;
     }
@@ -40,6 +49,7 @@ public class Registration implements Serializable {
     public void setRegistrationAt(LocalDateTime registrationAt) {
         this.registrationAt = registrationAt;
     }
+
 
     @Override
     public boolean equals(Object o) {

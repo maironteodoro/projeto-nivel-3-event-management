@@ -25,6 +25,13 @@ public class User implements Serializable {
     private String username;
     private UserEnum role;
 
+    @OneToMany (mappedBy = "user")
+    @JsonManagedReference
+    private List<Registration> registrations = new ArrayList<>();
+
+    @OneToMany (mappedBy = "user")
+    @JsonManagedReference
+    private List<FeedBack> feedBacks = new ArrayList<>();
 
 
     public Long getId() {
@@ -50,6 +57,22 @@ public class User implements Serializable {
 
     public void setRole(UserEnum role) {
         this.role = role;
+    }
+
+    public List<Registration> getRegistrations() {
+        return registrations;
+    }
+
+    public void setRegistrations(List<Registration> registrations) {
+        this.registrations = registrations;
+    }
+
+    public List<FeedBack> getFeedBacks() {
+        return feedBacks;
+    }
+
+    public void setFeedBacks(List<FeedBack> feedBacks) {
+        this.feedBacks = feedBacks;
     }
 
 

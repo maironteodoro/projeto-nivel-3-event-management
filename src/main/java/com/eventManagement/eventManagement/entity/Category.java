@@ -1,12 +1,12 @@
 package com.eventManagement.eventManagement.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +22,10 @@ public class Category implements Serializable {
     private Long id;
     private String Name;
 
+    @ManyToMany (mappedBy = "categories")
+    @JsonBackReference
+    private List<Event> events = new ArrayList<>();
+
     public Long getId() {
         return id;
     }
@@ -36,6 +40,15 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         Name = name;
+    }
+
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
     @Override

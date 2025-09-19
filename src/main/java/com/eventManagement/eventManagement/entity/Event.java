@@ -1,10 +1,14 @@
 package com.eventManagement.eventManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,6 +26,21 @@ public class Event implements Serializable {
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+
+
+    @ManyToMany
+    @JoinTable( name = "event_category",
+                joinColumns = @JoinColumn(name = "event_id"),
+                inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JsonManagedReference
+    private List<Category> categories = new ArrayList<>();
+
+    @OneToMany (mappedBy = "event")
+    private List<Registration> registrations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event")
+    private  List<FeedBack>feedBacks = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -62,6 +81,31 @@ public class Event implements Serializable {
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<Registration> getRegistrations() {
+        return registrations;
+    }
+
+    public void setRegistrations(List<Registration> registrations) {
+        this.registrations = registrations;
+    }
+
+    public List<FeedBack> getFeedBacks() {
+        return feedBacks;
+    }
+
+    public void setFeedBacks(List<FeedBack> feedBacks) {
+        this.feedBacks = feedBacks;
+    }
+
 
     @Override
     public boolean equals(Object o) {
