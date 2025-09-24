@@ -1,5 +1,6 @@
 package com.eventManagement.eventManagement.entity;
 
+import com.eventManagement.eventManagement.entity.enums.EventEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -26,7 +27,8 @@ public class Event implements Serializable {
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-
+    private EventEnum status;
+    private Integer capacity;
 
     @ManyToMany
     @JoinTable( name = "event_category",
@@ -48,6 +50,15 @@ public class Event implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
     public String getTitle() {
@@ -106,6 +117,13 @@ public class Event implements Serializable {
         this.feedBacks = feedBacks;
     }
 
+    public EventEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(EventEnum status) {
+        this.status = status;
+    }
 
     @Override
     public boolean equals(Object o) {

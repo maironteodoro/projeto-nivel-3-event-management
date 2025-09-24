@@ -8,13 +8,14 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CreateUserResponse {
+public class UserResponse {
 
     private Long id;
 
     @NotNull
     private String userName;
     private UserEnum role;
+    private UserEnum status;
 
 
 }

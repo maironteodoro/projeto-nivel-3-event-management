@@ -26,9 +26,9 @@ public class FeedBack implements Serializable {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     @JsonBackReference
-    private User user;
+    private User author;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
@@ -66,6 +66,22 @@ public class FeedBack implements Serializable {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
     @Override

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 @Entity
 public class User implements Serializable {
 
@@ -22,14 +23,16 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
+    private String userName;
     private UserEnum role;
+    private String password;
+    private Boolean active;
 
-    @OneToMany (mappedBy = "user")
+    @OneToMany (mappedBy = "user",cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference
     private List<Registration> registrations = new ArrayList<>();
 
-    @OneToMany (mappedBy = "user")
+    @OneToMany (mappedBy = "author",cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference
     private List<FeedBack> feedBacks = new ArrayList<>();
 
@@ -41,15 +44,21 @@ public class User implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public UserEnum getRole() {
         return role;
@@ -75,6 +84,13 @@ public class User implements Serializable {
         this.feedBacks = feedBacks;
     }
 
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     @Override
     public boolean equals(Object o) {
