@@ -20,7 +20,7 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String Name;
+    private String name;
 
     @ManyToMany (mappedBy = "categories")
     @JsonBackReference
@@ -35,11 +35,11 @@ public class Category implements Serializable {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        name = name;
     }
 
 
