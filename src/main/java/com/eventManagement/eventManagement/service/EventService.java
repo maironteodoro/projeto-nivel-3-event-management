@@ -9,6 +9,7 @@ import com.eventManagement.eventManagement.entity.Event;
 import com.eventManagement.eventManagement.entity.enums.EventEnum;
 import com.eventManagement.eventManagement.exception.BusinessException;
 import com.eventManagement.eventManagement.exception.ResourceNotFoundException;
+import com.eventManagement.eventManagement.repository.CategoryRepository;
 import com.eventManagement.eventManagement.repository.EventRepository;
 import com.eventManagement.mapper.EventMapper;
 import org.springframework.data.domain.Page;
@@ -25,12 +26,12 @@ public class EventService {
 
     private final EventRepository repository;
     private final EventMapper mapper;
-    private final CategoryService categoryService;
-    public EventService(EventRepository repository, EventMapper mapper, CategoryService categoryService){
+    private final CategoryRepository categoryRepository;
+    public EventService(EventRepository repository, EventMapper mapper, CategoryRepository categoryRepository){
 
         this.repository = repository;
         this.mapper = mapper;
-        this.categoryService = categoryService;
+        this.categoryRepository =categoryRepository;
     }
 
 
@@ -92,10 +93,12 @@ public class EventService {
             }
 
             mapper.update(eventRequest, event);
-            event.setStatus(calculateEventStatus(event.getStartDate(),event.getEndDate()));
 
-            if (eventRequest.getCategoriesIds() != null) {
-                List<Category> categories = categoryService.findAllByIds(eventRequest.getCategoriesIds());
+            updateEventStatus(event);
+
+
+            if (eventRequest.getCategoriesIds() != null && !eventRequest.getCategoriesIds().isEmpty()) {
+                List<Category> categories = categoryRepository.findAllByIds(eventRequest.getCategoriesIds());
                 event.setCategories(categories);
             }
 
@@ -139,6 +142,7 @@ public class EventService {
         event.setStatus(calculateEventStatus(event.getStartDate(), event.getEndDate()));
     }
 
+
    //evento completo?
     public void eventIsCompleted(Long eventId) {
 
@@ -163,4 +167,6 @@ public class EventService {
                 .map(Event::getCapacity)
                 .orElseThrow(() -> new ResourceNotFoundException("Event", "id", eventId));
     }
+
+
 }

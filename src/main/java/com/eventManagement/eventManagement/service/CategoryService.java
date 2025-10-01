@@ -73,9 +73,6 @@ public class CategoryService {
         return mapper.toResponse(category);
 
     }
-    public List<Category> findAllByIds(List<Long> ids) {
-        return repository.findAllById(ids);
-    }
 
     @PreAuthorize("hasRole('ADMIN')")
     public void delete(Long  id){
