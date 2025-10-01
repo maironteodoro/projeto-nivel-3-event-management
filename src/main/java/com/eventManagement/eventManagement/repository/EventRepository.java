@@ -14,4 +14,7 @@ public interface EventRepository extends JpaRepository<Event,Long> {
 
     Optional<Event> findByTitle(String title);
     List<Event> findByStatusNot(EventEnum eventEnum);
+
+
+
 }

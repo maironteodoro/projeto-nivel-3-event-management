@@ -4,6 +4,7 @@ package com.eventManagement.eventManagement.service;
 import com.eventManagement.eventManagement.dto.eventDto.CreateEventRequest;
 import com.eventManagement.eventManagement.dto.eventDto.EventResponse;
 import com.eventManagement.eventManagement.dto.eventDto.UpdateEventRequest;
+import com.eventManagement.eventManagement.entity.Category;
 import com.eventManagement.eventManagement.entity.Event;
 import com.eventManagement.eventManagement.entity.enums.EventEnum;
 import com.eventManagement.eventManagement.exception.BusinessException;
@@ -24,20 +25,19 @@ public class EventService {
 
     private final EventRepository repository;
     private final EventMapper mapper;
-
-    public EventService(EventRepository repository, EventMapper mapper){
+    private final CategoryService categoryService;
+    public EventService(EventRepository repository, EventMapper mapper, CategoryService categoryService){
 
         this.repository = repository;
         this.mapper = mapper;
+        this.categoryService = categoryService;
     }
 
 
     @PreAuthorize("hasRole('ADMIN')")
     public EventResponse create(CreateEventRequest eventRequest){
 
-        if (eventRequest.getEndDate().isBefore(eventRequest.getStartDate())) {
-            throw new BusinessException("End date cannot be before start date");
-        }
+        validateDates(eventRequest);
 
         Event event = mapper.toEntity(eventRequest);
 
@@ -77,6 +77,9 @@ public class EventService {
 
     }
 
+
+
+
         public  EventResponse update(UpdateEventRequest eventRequest){
             Event event = repository.findById(
                     eventRequest.getId()).orElseThrow(
@@ -91,6 +94,10 @@ public class EventService {
             mapper.update(eventRequest, event);
             event.setStatus(calculateEventStatus(event.getStartDate(),event.getEndDate()));
 
+            if (eventRequest.getCategoriesIds() != null) {
+                List<Category> categories = categoryService.findAllByIds(eventRequest.getCategoriesIds());
+                event.setCategories(categories);
+            }
 
             repository.save(event);
           return  mapper.toResponse(event);
@@ -143,6 +150,11 @@ public class EventService {
 
         if (!event.getStatus().equals(EventEnum.COMPLETED)) {
             throw new BusinessException("O evento ainda não foi concluído.");
+        }
+    }
+    private void validateDates(CreateEventRequest eventRequest) {
+        if (eventRequest.getEndDate().isBefore(eventRequest.getStartDate())) {
+            throw new BusinessException("End date cannot be before start date");
         }
     }
 
