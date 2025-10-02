@@ -36,7 +36,7 @@ public class UserService {
         return mapper.toResponse(savedUser);
     }
 
-    public UserResponse createParticipant(CreateUserRequest userRequest){
+    public UserResponse createClient(CreateUserRequest userRequest){
         User user = mapper.toEntity(userRequest,passwordEncoder,UserEnum.PARTICIPANT);
 
         User savedUser= repository.save(user);
@@ -71,13 +71,15 @@ public class UserService {
     }
 
     //clareza é priorizada sobre micro otimizações
-    public void deactivate(Long id){
+    public UserResponse deactivate(Long id){
 
         User user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
 
         user.setActive(false);
         repository.save(user);
+
+        return mapper.toResponse(user);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
