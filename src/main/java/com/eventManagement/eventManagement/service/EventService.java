@@ -81,10 +81,9 @@ public class EventService {
 
 
 
-        public  EventResponse update(UpdateEventRequest eventRequest){
-            Event event = repository.findById(
-                    eventRequest.getId()).orElseThrow(
-                    () -> new ResourceNotFoundException
+        public  EventResponse update(UpdateEventRequest eventRequest, Long id){
+            Event event = repository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException
                             ("Event", "id", eventRequest.getId()));
 
 
