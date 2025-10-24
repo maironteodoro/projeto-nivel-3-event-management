@@ -79,10 +79,6 @@ public class EventService {
         return mapper.toResponse(event);
 
     }
-
-
-
-
         public  EventResponse update(UpdateEventRequest eventRequest, Long id){
             Event event = repository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException
@@ -113,7 +109,6 @@ public class EventService {
         repository.deleteById(id);
 
     }
-
 
     @Scheduled(fixedRate = 60000) // a cada 60 segundos
     public void updateEventStatuses() {
