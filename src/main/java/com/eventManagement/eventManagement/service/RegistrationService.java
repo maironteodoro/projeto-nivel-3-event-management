@@ -29,9 +29,9 @@ public class RegistrationService {
     }
 
     public RegistrationResponse create(CreateRegistrationRequest registrationRequest){
-        Integer capacity = eventService.getCapacity(registrationRequest.getEventId());
+        int capacity = eventService.getCapacity(registrationRequest.getEventId());
 
-        Long registrations = repository.countByEventId(registrationRequest.getEventId());
+        int registrations = repository.countByEventId(registrationRequest.getEventId());
 
         if(registrations >= capacity){
             throw new BusinessException("Capacidade máxima do evento atingida.");

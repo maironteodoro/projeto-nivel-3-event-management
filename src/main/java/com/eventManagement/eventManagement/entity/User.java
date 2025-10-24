@@ -3,6 +3,7 @@ package com.eventManagement.eventManagement.entity;
 import com.eventManagement.eventManagement.entity.enums.UserEnum;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 
 import java.io.Serial;
@@ -26,6 +27,7 @@ public class User implements Serializable {
     private String userName;
     private UserEnum role;
     private String password;
+    @NotNull
     private Boolean active;
 
     @OneToMany (mappedBy = "user",cascade = CascadeType.REMOVE, orphanRemoval = true)

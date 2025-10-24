@@ -3,10 +3,13 @@ package com.eventManagement.eventManagement.dto.userDto;
 import com.eventManagement.eventManagement.entity.enums.UserEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.stereotype.Service;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UpdateUserRequest {
 
     private Long id;

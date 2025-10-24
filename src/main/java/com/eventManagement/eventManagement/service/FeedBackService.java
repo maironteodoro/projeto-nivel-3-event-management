@@ -27,7 +27,7 @@ public class FeedBackService {
     }
 
     public FeedBackResponse create(CreateFeedBackRequest feedBackRequest){
-        if(repository.findByUserIdAndEventId(feedBackRequest.getAuthorId(), feedBackRequest.getEventId()).isPresent()){
+        if(repository.findByAuthorIdAndEventId(feedBackRequest.getAuthorId(), feedBackRequest.getEventId()).isPresent()){
             throw new BusinessException("Usuário já enviou feedback para este evento.");
         }
         eventService.eventIsCompleted(feedBackRequest.getEventId());
@@ -45,9 +45,9 @@ public class FeedBackService {
                 .orElseThrow(() -> new ResourceNotFoundException("feedback", "id", id)));
     }
 
-    public Page<FeedBackResponse> findByUserId(Pageable pageable,Long id){
+    public Page<FeedBackResponse> findByAuthorId(Pageable pageable,Long id){
 
-        return repository.findByUserId(id,pageable).map(mapper::toResponse);
+        return repository.findByAuthorId(id,pageable).map(mapper::toResponse);
     };
     public Page<FeedBackResponse> findByEventId(Pageable pageable,Long id){
 

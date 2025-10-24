@@ -1,16 +1,21 @@
 package com.eventManagement.eventManagement.dto.eventDto;
 
 
-import com.eventManagement.eventManagement.entity.enums.EventEnum;
+import com.eventManagement.eventManagement.entity.enums.EventStateEnum;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
+
 public class CreateEventRequest {
 
     @NotNull
@@ -21,7 +26,7 @@ public class CreateEventRequest {
     private LocalDateTime startDate;
    @NotNull
    private LocalDateTime endDate;
-   private EventEnum status;
+   private EventStateEnum status;
 
    @NotNull
    private  Integer capacity;

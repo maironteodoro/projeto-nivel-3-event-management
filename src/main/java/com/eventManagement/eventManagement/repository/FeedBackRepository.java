@@ -13,7 +13,7 @@ public interface FeedBackRepository extends JpaRepository<FeedBack,Long> {
 
 
     Page<FeedBack> findByEventId(Long eventId,  Pageable pageable);
-    Page<FeedBack> findByUserId(Long userId, Pageable pageable);
-    Optional<FeedBack> findByUserIdAndEventId(Long userId, Long eventId);
+    Page<FeedBack> findByAuthorId(Long authorId, Pageable pageable);
+    Optional<FeedBack> findByAuthorIdAndEventId(Long autohrId, Long eventId);
 
 }

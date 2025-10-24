@@ -1,7 +1,6 @@
 package com.eventManagement.eventManagement.entity;
 
-import com.eventManagement.eventManagement.entity.enums.EventEnum;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.eventManagement.eventManagement.entity.enums.EventStateEnum;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -27,7 +26,7 @@ public class Event implements Serializable {
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private EventEnum status;
+    private EventStateEnum status;
     private Integer capacity;
 
     @ManyToMany
@@ -117,11 +116,11 @@ public class Event implements Serializable {
         this.feedBacks = feedBacks;
     }
 
-    public EventEnum getStatus() {
+    public EventStateEnum getStatus() {
         return status;
     }
 
-    public void setStatus(EventEnum status) {
+    public void setStatus(EventStateEnum status) {
         this.status = status;
     }
 

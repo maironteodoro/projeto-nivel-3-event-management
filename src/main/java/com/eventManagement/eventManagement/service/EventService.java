@@ -6,7 +6,7 @@ import com.eventManagement.eventManagement.dto.eventDto.EventResponse;
 import com.eventManagement.eventManagement.dto.eventDto.UpdateEventRequest;
 import com.eventManagement.eventManagement.entity.Category;
 import com.eventManagement.eventManagement.entity.Event;
-import com.eventManagement.eventManagement.entity.enums.EventEnum;
+import com.eventManagement.eventManagement.entity.enums.EventStateEnum;
 import com.eventManagement.eventManagement.exception.BusinessException;
 import com.eventManagement.eventManagement.exception.ResourceNotFoundException;
 import com.eventManagement.eventManagement.repository.CategoryRepository;
@@ -37,6 +37,8 @@ public class EventService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public EventResponse create(CreateEventRequest eventRequest){
+
+
 
         validateDates(eventRequest);
 
@@ -97,7 +99,7 @@ public class EventService {
 
 
             if (eventRequest.getCategoriesIds() != null && !eventRequest.getCategoriesIds().isEmpty()) {
-                List<Category> categories = categoryRepository.findAllByIds(eventRequest.getCategoriesIds());
+                List<Category> categories = categoryRepository.findAllByIdIn(eventRequest.getCategoriesIds());
                 event.setCategories(categories);
             }
 
@@ -115,9 +117,9 @@ public class EventService {
 
     @Scheduled(fixedRate = 60000) // a cada 60 segundos
     public void updateEventStatuses() {
-        List<Event> events = repository.findByStatusNot(EventEnum.COMPLETED); // pega só eventos que ainda não terminaram
+        List<Event> events = repository.findByStatusNot(EventStateEnum.COMPLETED); // pega só eventos que ainda não terminaram
         events.forEach(event -> {
-            EventEnum newStatus = calculateEventStatus(event.getStartDate(), event.getEndDate());
+            EventStateEnum newStatus = calculateEventStatus(event.getStartDate(), event.getEndDate());
             if (!event.getStatus().equals(newStatus)) {
                 event.setStatus(newStatus);
                 repository.save(event);
@@ -125,17 +127,19 @@ public class EventService {
         });
     }
 
-    private EventEnum calculateEventStatus(LocalDateTime startDate, LocalDateTime endDate) {
+    private EventStateEnum calculateEventStatus(LocalDateTime startDate, LocalDateTime endDate) {
         LocalDateTime now = LocalDateTime.now();
 
+
         if (now.isBefore(startDate)) {
-            return EventEnum.UPCOMING;
+            return EventStateEnum.UPCOMING;
         } else if (now.isAfter(endDate)) {
-            return EventEnum.COMPLETED;
+            return EventStateEnum.COMPLETED;
         } else {
-            return EventEnum.ONGOING;
+            return EventStateEnum.ONGOING;
         }
     }
+
     //atualiza o status
     private void updateEventStatus(Event event) {
         event.setStatus(calculateEventStatus(event.getStartDate(), event.getEndDate()));
@@ -151,17 +155,27 @@ public class EventService {
                         ("Event", "id", eventId));
         updateEventStatus(event);
 
-        if (!event.getStatus().equals(EventEnum.COMPLETED)) {
+        if (!event.getStatus().equals(EventStateEnum.COMPLETED)) {
             throw new BusinessException("O evento ainda não foi concluído.");
         }
     }
+
     private void validateDates(CreateEventRequest eventRequest) {
+
+
+
+
+
+        if (eventRequest.getStartDate() == null || eventRequest.getEndDate() == null) {
+            throw new BusinessException("Start date and end date are required");
+        }
+
         if (eventRequest.getEndDate().isBefore(eventRequest.getStartDate())) {
             throw new BusinessException("End date cannot be before start date");
         }
     }
 
-    public Integer getCapacity(Long eventId) {
+    public int getCapacity(Long eventId) {
         return repository.findById(eventId)
                 .map(Event::getCapacity)
                 .orElseThrow(() -> new ResourceNotFoundException("Event", "id", eventId));

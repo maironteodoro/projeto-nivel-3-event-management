@@ -30,7 +30,7 @@ public class CategoryService {
 
     public CategoryResponse create (CreateCategoryRequest categoryRequest){
 
-        if (!repository.existisByName(categoryRequest.getName())){
+        if (!repository.existsByName(categoryRequest.getName())){
             throw new BusinessException("Category already exist.");
         }
         Category category = mapper.toEntity(categoryRequest);
@@ -53,8 +53,7 @@ public class CategoryService {
     }
 
     public CategoryResponse findByName(String name){
-       Category category = repository.findByName(name)
-               .orElseThrow(()->new ResourceNotFoundException("Category", "name", name));
+       Category category = repository.findByName(name).orElseThrow(()->new ResourceNotFoundException("Category", "name", name));
 
         return mapper.toResponse(category);
     }

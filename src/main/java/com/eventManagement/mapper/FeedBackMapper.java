@@ -13,9 +13,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface FeedBackMapper {
 
-    FeedBackMapper INSTANCE = Mappers.getMapper(FeedBackMapper.class);
 
-    @Mapping(target = "user.id", source = "authorId")
+    @Mapping(target = "author.id", source = "authorId")
     @Mapping(target = "event.id", source = "eventId")
     FeedBack toEntity(CreateFeedBackRequest createFeedBackRequest);
 

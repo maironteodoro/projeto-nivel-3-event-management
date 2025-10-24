@@ -1,7 +1,7 @@
 package com.eventManagement.eventManagement.entity.enums;
 
 
-public enum EventEnum {
+public enum EventStateEnum {
     UPCOMING,
     ONGOING,
     COMPLETED

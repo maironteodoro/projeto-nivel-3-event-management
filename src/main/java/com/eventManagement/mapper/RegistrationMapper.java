@@ -7,7 +7,7 @@ import com.eventManagement.eventManagement.entity.Registration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel =  "string")
+@Mapper(componentModel =  "spring")
 public interface RegistrationMapper {
 
     RegistrationMapper INSTANCE = Mappers.getMapper(RegistrationMapper.class);

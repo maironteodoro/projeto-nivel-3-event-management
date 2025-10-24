@@ -22,20 +22,19 @@ public class UserController {
         this. service = service;
     }
 
-    @PostMapping
+    @PostMapping("/admin")
     public UserResponse createAdmin (@RequestBody @Valid CreateUserRequest userRequest){
         return service.createAdmin(userRequest);
     }
-    @PostMapping
+    @PostMapping("/client")
     public UserResponse createClient(@RequestBody @Valid CreateUserRequest userRequest){
         return service.createClient(userRequest);
     }
     @GetMapping
-    public Page<UserResponse> findAll(@PathVariable Pageable pageable){
+    public Page<UserResponse> findAll(Pageable pageable){
         return service.findAll(pageable);
 
     }
-
 
     @GetMapping("/{id}")
     public UserResponse findById(@PathVariable Long id){

@@ -28,9 +28,10 @@ public class EventController {
     }
 
     @GetMapping
-    public Page<EventResponse> findAll(@PathVariable Pageable pageable){
+    public Page<EventResponse> findAll(Pageable pageable){
         return service.findAll(pageable);
     }
+
     @GetMapping("/{id}")
     public EventResponse findById(@PathVariable Long id){
         return service.findById(id);
@@ -45,7 +46,7 @@ public class EventController {
     public EventResponse update(@RequestBody UpdateEventRequest eventRequest,@PathVariable Long id){
         return service.update(eventRequest,id);
     }
-
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
         service.delete(id);
     }

@@ -22,16 +22,16 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Converte o enum role para authority
-        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+user.getRole()));
     }
 
     @Override
-    public String getPassword() { return user.getPassword(); }
+    public String getPassword() {return user.getPassword(); }
 
     @Override
-    public String getUsername() { return user.getUserName(); }
+    public String getUsername() {return user.getUserName(); }
 
     @Override
-    public boolean isEnabled() { return user.getActive(); }
+    public boolean isEnabled() {return user.getActive();}
 
 }
