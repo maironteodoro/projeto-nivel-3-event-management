@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 public class FeedBackResponse {
 
 
-    private Long id;
     private Long rating;
     private String comment;
     private LocalDateTime createdAt;

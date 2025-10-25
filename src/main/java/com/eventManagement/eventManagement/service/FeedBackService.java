@@ -54,10 +54,16 @@ public class FeedBackService {
         return repository.findByEventId(id,pageable).map(mapper::toResponse);
     };
 
-    public FeedBackResponse update (UpdateFeedBackRequest feedBackRequest){
-        FeedBack feedback = repository.findById(feedBackRequest.getId())
+    public FeedBackResponse update (UpdateFeedBackRequest feedBackRequest,Long id){
+
+
+        FeedBack feedback = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("feedback", "id",feedBackRequest.getId()));
+
+
         mapper.update(feedBackRequest,feedback);
+
+        repository.save(feedback);
         return mapper.toResponse(feedback);
     }
 
