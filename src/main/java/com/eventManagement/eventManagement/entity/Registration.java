@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Registration implements Serializable {
 
     @Serial
-    private static final Long serialVersionUID = 4L;
+    private static final long serialVersionUID = 4L;
 
     public Registration(){};
 
@@ -50,6 +50,21 @@ public class Registration implements Serializable {
         this.registrationAt = registrationAt;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -31,16 +31,17 @@ public class UserService {
 
         @PreAuthorize("hasRole('ADMIN')")
     public UserResponse createAdmin(CreateUserRequest userRequest){
+
         User user = mapper.toEntity(userRequest,passwordEncoder,UserEnum.ADMIN);
+        user.setActive(true);
         User savedUser= repository.save(user);
         return mapper.toResponse(savedUser);
     }
 
     public UserResponse createClient(CreateUserRequest userRequest){
         User user = mapper.toEntity(userRequest,passwordEncoder,UserEnum.PARTICIPANT);
-
+        user.setActive(true);
         User savedUser= repository.save(user);
-
         return mapper.toResponse(savedUser);
     }
 
@@ -60,9 +61,9 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("user", "name", name));
     }
 
-    public UserResponse updateName (UpdateUserRequest userRequest){
+    public UserResponse updateName (Long id,UpdateUserRequest userRequest){
 
-        User user = repository.findById(userRequest.getId())
+        User user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userRequest.getId()));
 
         mapper.update(userRequest, user);

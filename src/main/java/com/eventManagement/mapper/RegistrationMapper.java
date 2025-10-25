@@ -5,14 +5,18 @@ import com.eventManagement.eventManagement.dto.registrationDto.CreateRegistratio
 import com.eventManagement.eventManagement.dto.registrationDto.RegistrationResponse;
 import com.eventManagement.eventManagement.entity.Registration;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel =  "spring")
 public interface RegistrationMapper {
 
-    RegistrationMapper INSTANCE = Mappers.getMapper(RegistrationMapper.class);
 
+
+    @Mapping(target = "user.id", source = "userId")
+    @Mapping(target = "event.id", source = "eventId")
     Registration toEntity(CreateRegistrationRequest registrationRequest);
+
 
     RegistrationResponse toResponse(Registration registration);
 

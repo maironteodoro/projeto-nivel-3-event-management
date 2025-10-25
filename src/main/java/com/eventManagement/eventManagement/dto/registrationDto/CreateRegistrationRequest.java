@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CreateRegistrationRequest {
 
-    private LocalDateTime registrationAt;
     private Long userId ;
     private Long eventId;
 

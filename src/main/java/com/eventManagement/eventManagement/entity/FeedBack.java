@@ -13,7 +13,7 @@ import java.util.Objects;
 public class FeedBack implements Serializable {
 
     @Serial
-    private static final Long SerialVersionUID = 5L;
+    private static final long serialVersionUID = 5L;
 
     public FeedBack(){};
 

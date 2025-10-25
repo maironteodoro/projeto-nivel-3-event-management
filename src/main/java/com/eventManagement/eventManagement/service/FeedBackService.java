@@ -30,7 +30,7 @@ public class FeedBackService {
         if(repository.findByAuthorIdAndEventId(feedBackRequest.getAuthorId(), feedBackRequest.getEventId()).isPresent()){
             throw new BusinessException("Usuário já enviou feedback para este evento.");
         }
-        eventService.eventIsCompleted(feedBackRequest.getEventId());
+        eventService.isEventCompleted(feedBackRequest.getEventId());
         FeedBack feedback = mapper.toEntity(feedBackRequest);
         repository.save(feedback);
         return mapper.toResponse(feedback);

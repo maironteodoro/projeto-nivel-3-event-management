@@ -1,10 +1,8 @@
 package com.eventManagement.eventManagement.controller;
 
 
-import com.eventManagement.eventManagement.dto.eventDto.CreateEventRequest;
 import com.eventManagement.eventManagement.dto.registrationDto.CreateRegistrationRequest;
 import com.eventManagement.eventManagement.dto.registrationDto.RegistrationResponse;
-import com.eventManagement.eventManagement.entity.Registration;
 import com.eventManagement.eventManagement.service.RegistrationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +27,10 @@ public class RegistrationController {
         return service.create(registrationRequest);
 
     }
-    @GetMapping
 
-    public Page<RegistrationResponse> findAll(@PathVariable Pageable pageable){
+
+    @GetMapping
+    public Page<RegistrationResponse> findAll(Pageable pageable){
         return service.findAll(pageable);
     }
 

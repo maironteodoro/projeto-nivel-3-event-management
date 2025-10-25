@@ -5,7 +5,6 @@ import com.eventManagement.eventManagement.dto.eventDto.CreateEventRequest;
 import com.eventManagement.eventManagement.dto.eventDto.EventResponse;
 import com.eventManagement.eventManagement.dto.eventDto.UpdateEventRequest;
 import com.eventManagement.eventManagement.service.EventService;
-import com.sun.jdi.request.EventRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,7 +23,6 @@ public class EventController {
     @PostMapping
     public EventResponse create (@RequestBody @Valid CreateEventRequest eventRequest){
         return service.create(eventRequest);
-
     }
 
     @GetMapping
@@ -32,12 +30,12 @@ public class EventController {
         return service.findAll(pageable);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public EventResponse findById(@PathVariable Long id){
         return service.findById(id);
     }
 
-    @GetMapping("/{title}")
+    @GetMapping("/title/{title}")
     public EventResponse findByTitle(@PathVariable String title){
         return service.findByTitle(title);
     }
@@ -50,6 +48,5 @@ public class EventController {
     public void delete(@PathVariable Long id){
         service.delete(id);
     }
-
 
 }

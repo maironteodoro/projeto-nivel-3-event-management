@@ -26,11 +26,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.repository = repository;
     }
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = repository.findByUserName(username)
                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
+        UserDetailsResponse users = mapper.toDetails(user);
         return new CustomUserDetails(mapper.toDetails(user));
     }
 }

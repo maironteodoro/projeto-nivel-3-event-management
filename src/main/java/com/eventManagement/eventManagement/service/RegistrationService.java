@@ -29,6 +29,9 @@ public class RegistrationService {
     }
 
     public RegistrationResponse create(CreateRegistrationRequest registrationRequest){
+
+
+
         int capacity = eventService.getCapacity(registrationRequest.getEventId());
 
         int registrations = repository.countByEventId(registrationRequest.getEventId());
@@ -42,6 +45,9 @@ public class RegistrationService {
         }
 
         Registration registration = mapper.toEntity(registrationRequest);
+
+
+
         repository.save(registration);
 
         return mapper.toResponse(registration);

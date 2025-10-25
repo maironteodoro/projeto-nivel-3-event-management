@@ -30,11 +30,16 @@ public class CategoryService {
 
     public CategoryResponse create (CreateCategoryRequest categoryRequest){
 
-        if (!repository.existsByName(categoryRequest.getName())){
+
+        if (repository.existsByName(categoryRequest.getName())){
             throw new BusinessException("Category already exist.");
         }
+
         Category category = mapper.toEntity(categoryRequest);
+
+
         repository.save(category);
+
         return mapper.toResponse(category);
     }
 
@@ -58,17 +63,26 @@ public class CategoryService {
         return mapper.toResponse(category);
     }
 
-    public CategoryResponse update(UpdateCategoryRequest categoryRequest){
+    public CategoryResponse update(UpdateCategoryRequest categoryRequest, Long id){
 
 
         if (repository.existsByNameAndIdNot(categoryRequest.getName(), categoryRequest.getId())) {
             throw new BusinessException("Category already exists.");
         }
+        if (categoryRequest.getId() != id)
+        {
+            throw new BusinessException("The Category is diferent.");
+        }
+        else {
+            categoryRequest.setId(id);
+        }
 
         Category category = repository.findById(categoryRequest.getId())
                 .orElseThrow(()->new ResourceNotFoundException("Category", "Id", categoryRequest.getId()));
 
+
         repository.save(category);
+
         return mapper.toResponse(category);
 
     }

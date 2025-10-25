@@ -24,6 +24,7 @@ public class UserController {
 
     @PostMapping("/admin")
     public UserResponse createAdmin (@RequestBody @Valid CreateUserRequest userRequest){
+
         return service.createAdmin(userRequest);
     }
     @PostMapping("/client")
@@ -40,10 +41,11 @@ public class UserController {
     public UserResponse findById(@PathVariable Long id){
         return service.findById(id);
     }
+
     @PutMapping("/{id}")
     public UserResponse updateName(@PathVariable Long id, @RequestBody @Valid UpdateUserRequest userRequest){
 
-        return service.updateName(userRequest);
+        return service.updateName(id,userRequest);
     }
 
     @PatchMapping("/{id}")

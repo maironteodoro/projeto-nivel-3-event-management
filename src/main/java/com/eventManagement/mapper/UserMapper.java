@@ -16,7 +16,6 @@ import java.util.Optional;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     UserResponse toResponse(User user);
 
@@ -24,7 +23,6 @@ public interface UserMapper {
     @Mapping(target = "role", expression = "java(userEnum)")
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(createUserRequest.getPassword()))")
     User toEntity(CreateUserRequest createUserRequest, @Context PasswordEncoder passwordEncoder, UserEnum userEnum);
-
 
 
     UserDetailsResponse toDetails(User user);

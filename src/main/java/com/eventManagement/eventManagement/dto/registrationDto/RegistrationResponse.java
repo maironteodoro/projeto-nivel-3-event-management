@@ -18,7 +18,4 @@ public class RegistrationResponse {
 
     private Long id;
     private LocalDateTime registrationAt;
-    private Long userId ;
-    private Long eventId;
-
 }

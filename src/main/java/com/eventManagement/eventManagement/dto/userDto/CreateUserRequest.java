@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateUserRequest {
@@ -18,6 +18,5 @@ public class CreateUserRequest {
 
     @NotNull
     private String password;
-
 
 }

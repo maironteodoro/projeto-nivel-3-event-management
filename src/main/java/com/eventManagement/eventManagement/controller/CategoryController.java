@@ -13,7 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-@Entity
+@RestController
 @RequestMapping("/categories")
 public class CategoryController {
 
@@ -28,12 +28,13 @@ public class CategoryController {
 
     @PostMapping
     public CategoryResponse create (@RequestBody CreateCategoryRequest categoryRequest){
+
         return service.create(categoryRequest);
     }
 
-    @GetMapping("/{name}")
-    public CategoryResponse findByName(String name){
-
+    @GetMapping("name/{name}")
+    public CategoryResponse findByName(@PathVariable String name){
+        System.out.println(name);
         return service.findByName(name);
     }
 

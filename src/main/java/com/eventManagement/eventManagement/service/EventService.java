@@ -27,17 +27,17 @@ public class EventService {
     private final EventRepository repository;
     private final EventMapper mapper;
     private final CategoryRepository categoryRepository;
-    public EventService(EventRepository repository, EventMapper mapper, CategoryRepository categoryRepository){
+
+    public EventService(EventRepository repository, EventMapper mapper, CategoryRepository categoryRepository) {
 
         this.repository = repository;
         this.mapper = mapper;
-        this.categoryRepository =categoryRepository;
+        this.categoryRepository = categoryRepository;
     }
 
 
     @PreAuthorize("hasRole('ADMIN')")
-    public EventResponse create(CreateEventRequest eventRequest){
-
+    public EventResponse create(CreateEventRequest eventRequest) {
 
 
         validateDates(eventRequest);
@@ -52,15 +52,14 @@ public class EventService {
     }
 
 
-
-    public Page<EventResponse> findAll(Pageable pageable){
+    public Page<EventResponse> findAll(Pageable pageable) {
         Pageable safePageable = pageable != null ? pageable : Pageable.unpaged();
         return repository.findAll(safePageable)
                 .map(mapper::toResponse);
     }
 
 
-    public EventResponse findById(Long id){
+    public EventResponse findById(Long id) {
         Event event = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Event", "id", id));
 
@@ -69,42 +68,47 @@ public class EventService {
         return mapper.toResponse(event);
 
     }
-    public EventResponse findByTitle(String title){
-            Event event = repository.findByTitle(title).orElseThrow(
-                    () -> new ResourceNotFoundException
-                            ("Event", "title", title));;
 
-            updateEventStatus(event);
+    public EventResponse findByTitle(String title) {
+        Event event = repository.findByTitle(title).orElseThrow(
+                () -> new ResourceNotFoundException
+                        ("Event", "title", title));
+        ;
+
+        updateEventStatus(event);
 
         return mapper.toResponse(event);
 
     }
-        public  EventResponse update(UpdateEventRequest eventRequest, Long id){
-            Event event = repository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException
-                            ("Event", "id", eventRequest.getId()));
+
+    public EventResponse update(UpdateEventRequest eventRequest, Long id) {
+        Event event = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException
+                        ("Event", "id", eventRequest.getId()));
 
 
-            if (eventRequest.getEndDate().isBefore(eventRequest.getStartDate())) {
-                throw new BusinessException("End date cannot be before start date");
-            }
+        mapper.update(eventRequest, event);
 
-            mapper.update(eventRequest, event);
-
-            updateEventStatus(event);
-
-
-            if (eventRequest.getCategoriesIds() != null && !eventRequest.getCategoriesIds().isEmpty()) {
-                List<Category> categories = categoryRepository.findAllByIdIn(eventRequest.getCategoriesIds());
-                event.setCategories(categories);
-            }
-
-            repository.save(event);
-          return  mapper.toResponse(event);
+        if (event.getEndDate().isBefore(event.getStartDate())) {
+            throw new BusinessException("End date cannot be before start date");
         }
 
+        updateEventStatus(event);
+
+
+        if (eventRequest.getCategoriesIds() != null && !eventRequest.getCategoriesIds().isEmpty()) {
+            List<Category> categories = categoryRepository.findAllByIdIn(eventRequest.getCategoriesIds());
+            event.setCategories(categories);
+        }
+
+        repository.save(event);
+        return mapper.toResponse(event);
+    }
+
+
+
     @PreAuthorize("hasRole('ADMIN')")
-    public void delete(Long  id){
+    public void delete(Long id) {
 
         repository.deleteById(id);
 
@@ -141,8 +145,8 @@ public class EventService {
     }
 
 
-   //evento completo?
-    public void eventIsCompleted(Long eventId) {
+    //evento completo?
+    public void isEventCompleted(Long eventId) {
 
 
         Event event = repository.findById(eventId).orElseThrow(
@@ -151,14 +155,11 @@ public class EventService {
         updateEventStatus(event);
 
         if (!event.getStatus().equals(EventStateEnum.COMPLETED)) {
-            throw new BusinessException("O evento ainda não foi concluído.");
+            throw new BusinessException("Event is not over yet");
         }
     }
 
     private void validateDates(CreateEventRequest eventRequest) {
-
-
-
 
 
         if (eventRequest.getStartDate() == null || eventRequest.getEndDate() == null) {

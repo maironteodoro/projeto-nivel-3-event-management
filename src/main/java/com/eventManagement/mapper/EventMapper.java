@@ -18,4 +18,5 @@ public interface EventMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void update(UpdateEventRequest eventRequest, @MappingTarget Event event);
+
 }

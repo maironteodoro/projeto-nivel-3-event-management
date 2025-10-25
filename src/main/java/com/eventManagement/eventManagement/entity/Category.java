@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Category implements Serializable {
 
     @Serial
-    private static final Long serialVersionUID = 3L;
+    private static final long serialVersionUID = 3L;
 
     public Category(){};
 
@@ -39,7 +39,7 @@ public class Category implements Serializable {
     }
 
     public void setName(String name) {
-        name = name;
+        this.name = name;
     }
 
 

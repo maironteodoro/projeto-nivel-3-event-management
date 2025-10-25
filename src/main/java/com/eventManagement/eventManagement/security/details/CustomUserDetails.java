@@ -10,6 +10,11 @@ import com.eventManagement.eventManagement.entity.User;
 import java.util.Collection;
 import java.util.List;
 
+
+
+
+
+
 public class CustomUserDetails implements UserDetails {
 
 
