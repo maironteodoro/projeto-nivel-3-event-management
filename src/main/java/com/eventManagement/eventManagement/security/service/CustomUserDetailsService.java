@@ -19,10 +19,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
     private final UserRepository repository;
-    private final UserMapper mapper;
 
-    public CustomUserDetailsService(UserMapper mapper,UserRepository repository) {
-       this.mapper = mapper;
+    public CustomUserDetailsService(UserRepository repository) {
         this.repository = repository;
     }
     @Override
@@ -30,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         User user = repository.findByUserName(username)
                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        UserDetailsResponse users = mapper.toDetails(user);
-        return new CustomUserDetails(mapper.toDetails(user));
+
+        return new CustomUserDetails(user);
     }
 }
