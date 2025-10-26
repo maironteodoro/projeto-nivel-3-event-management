@@ -18,17 +18,19 @@ import java.util.List;
 public class CustomUserDetails implements UserDetails {
 
 
-    private final UserDetailsResponse user;
 
-    public CustomUserDetails(UserDetailsResponse user) {
+    private final User user;
+
+    public CustomUserDetails(User user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Converte o enum role para authority
-        return List.of(new SimpleGrantedAuthority("ROLE_"+user.getRole()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+user.getRole().name()));
     }
+
 
     @Override
     public String getPassword() {return user.getPassword(); }
@@ -38,5 +40,13 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {return user.getActive();}
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
 
 }
